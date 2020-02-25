@@ -19,12 +19,14 @@ public final class MultiplicationResultAttempt {
     private final Multiplication multiplication;
     private final int resultAttempt;
 
+    private final boolean correct;
+
     /**
      * @RequiredArgsConstructor generates a constructor taking all the final fields.
      */
 
     // Empty constructor for JSON (de)serialization
     MultiplicationResultAttempt() {
-        this(null, null, -1);
+        this(null, null, -1, false);
     }
 }

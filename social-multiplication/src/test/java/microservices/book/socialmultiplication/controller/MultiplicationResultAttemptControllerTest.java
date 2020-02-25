@@ -59,7 +59,7 @@ public class MultiplicationResultAttemptControllerTest {
         given(multiplicationService.checkAttempt(any(MultiplicationResultAttempt.class))).willReturn(correct);
         User user = new User("jonh");
         Multiplication multiplication = new Multiplication(50, 70);
-        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3500);
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3500, correct);
 
         // when
 
@@ -68,8 +68,17 @@ public class MultiplicationResultAttemptControllerTest {
                         .content(jsonResult.write(attempt).getJson()))
                 .andReturn().getResponse();
         // then
+//        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+//        assertThat(response.getContentAsString()).isEqualTo(jsonResponse.write(new ResultResponse(correct)).getJson());
+
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString()).isEqualTo(jsonResponse.write(new ResultResponse(correct)).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(
+                jsonResult.write(
+                        new MultiplicationResultAttempt(attempt.getUser(),
+                                attempt.getMultiplication(),
+                                attempt.getResultAttempt(),
+                                correct)).getJson()
+        );
     }
 
 }
