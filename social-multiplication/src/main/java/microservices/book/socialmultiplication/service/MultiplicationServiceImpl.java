@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,9 +45,10 @@ public class MultiplicationServiceImpl implements MultiplicationService {
     public boolean checkAttempt(final MultiplicationResultAttempt resultAttempt) {
 
         // Check if the user already exists for that alias
+
         Optional<User> user = userRepository.findByAlias(resultAttempt.getUser().getAlias());
 
-        // Avoid 'hack' attempt
+        // Avoid 'hack' attempt`
         Assert.isTrue(!resultAttempt.isCorrect(), "You can't send an attempt marked as correct!!");
 
         // Check if the attempt is correct
@@ -66,5 +68,10 @@ public class MultiplicationServiceImpl implements MultiplicationService {
 
         // Return the result
         return isCorrect;
+    }
+
+    @Override
+    public List<MultiplicationResultAttempt> getStatsForUser(String userAlias) {
+        return attemptRepository.findTop5ByUserAliasOrderByIdDesc(userAlias);
     }
 }
