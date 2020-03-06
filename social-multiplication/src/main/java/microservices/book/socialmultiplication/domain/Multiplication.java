@@ -28,7 +28,8 @@ public final class Multiplication {
 
     // Empty constructor for JSON (de)serialization
     Multiplication() {
-        this(0, 0);
+        factorA = 0;
+        factorB = 0;
     }
 
 }
